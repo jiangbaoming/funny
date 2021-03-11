@@ -1,0 +1,5 @@
+api:
+  sentence: https://chp.shadiao.app/api.php
+server:
+  port: 8088
+wx:
