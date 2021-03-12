@@ -1,5 +1,7 @@
 package com.jbm.funny.config;
 
+import com.baidu.aip.ocr.AipOcr;
+import com.jbm.funny.aipocr.baidu.AipOcrConfig;
 import com.jbm.funny.rest.ChpApi;
 import me.chanjar.weixin.common.redis.JedisWxRedisOps;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -24,7 +26,7 @@ public class DefaultConfig {
     @Bean
     @ConfigurationProperties(prefix = "api")
     public ChpApi getDataSource() {
-        ChpApi  chpApi= new ChpApi();
+        ChpApi chpApi = new ChpApi();
         return chpApi;
     }
 
@@ -32,6 +34,22 @@ public class DefaultConfig {
     public WxMpService wxMpService() {
         WxMpService service = new WxMpServiceImpl();
         return service;
+    }
+
+    @Bean
+    @ConfigurationProperties(prefix = "qcr")
+    public AipOcrConfig aipOcrConfig() {
+        AipOcrConfig service = new AipOcrConfig();
+        return service;
+    }
+
+
+    @Bean
+    public AipOcr aipOcr(AipOcrConfig config) {
+        AipOcr client = new AipOcr(config.getAppId(), config.getApiKey(), config.getSecretKey());
+        client.setConnectionTimeoutInMillis(2000);
+        client.setSocketTimeoutInMillis(60000);
+        return client;
     }
 
 }

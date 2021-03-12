@@ -3,3 +3,15 @@ api:
 server:
   port: 8088
 wx:
+qcr:
+  app-id: 23785184
+  api-key: BhEuN0X9hGQiGoNNWuGxodIx
+  secret-key: pr3cYoDks15v6uuQg77XY0TVmqEcNOhy
+  # 上传文件总的最大值
+spring:
+  servlet:
+   multipart:
+    max-request-size: 10MB
+  # 单个文件的最大值(注：springboot默认的文件大小限制为1M)
+    max-file-size: 5MB
+

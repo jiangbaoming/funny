@@ -4,8 +4,56 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <title>Insert title here</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-hello world !
+<div class="container">
+    <div class="left">
+        <div>
+            <div class="layui-upload-drag" id="upload">
+                <div class="layui-hide" id="uploadDemoView">
+                    <hr>
+                    <img src="" alt="上传成功后渲染" style="max-width: 196px">
+                </div>
+                <i class="layui-icon"></i>
+                <p>点击上传，或将文件拖拽到此处</p>
+            </div>
+        </div>
+        <div>
+            wdqdqwd
+        </div>
+
+    </div>
+    <div class="right">
+        <iframe src="https://apply.mcard.boc.cn/apply/mobile/mainAppi/gotoIdentityVerifyPage"></iframe>
+    </div>
+</div>
 </body>
+<script src="layui/layui.js"></script>
+<script>
+    layui.use(['upload', 'layer'], function () {
+        var $ = layui.jquery
+            , upload = layui.upload
+            , layer = layui.layer;
+
+        //执行实例
+        var uploadInst = upload.render({
+            elem: '#upload' //绑定元素
+            , url: '/upload/img' //改成您自己的上传接口
+            , done: function (res) {
+                layer.msg('上传成功');
+                layui.$('#uploadDemoView').removeClass('layui-hide').find('img').attr('src', res.files.file);
+            }
+            , error: function () {
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function () {
+                    uploadInst.upload();
+                });
+            }
+        });
+    });
+</script>
 </html>
