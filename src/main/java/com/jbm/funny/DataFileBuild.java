@@ -24,36 +24,41 @@ public class DataFileBuild {
         List<String> tempFiles = Arrays.asList(files);
         tempFiles.forEach(file ->{
             String filename = file.substring(0,file.lastIndexOf("."));
-            DataFileBuild.build(file,data ->{
-                for(int i= 0;i<20;i++){
-                    // 通过工具类创建writer
-                    String fileName = filename+i+".xlsx";
-                    String tempPath =  "C:/Users/Administrator/Desktop/20210405/"+fileName;
-                    ExcelWriter writer = ExcelUtil.getWriter(tempPath);
-                    List<Map<String,Object>> listTemp = new ArrayList<>();
-                    for(int j=0;j<100;j++){
+            List<Map<String,Object>> datas =  DataFileBuild.build(file);
+            for(int i= 0;i<200;i++){
+                // 通过工具类创建writer
+                String fileName = filename+i+".xlsx";
+                String tempPath =  "C:/Users/Administrator/Desktop/20210405/"+filename+"/"+fileName;
+                ExcelWriter writer = ExcelUtil.getWriter(tempPath);
+                List<Map<String,Object>> listTemp = new ArrayList<>();
+                for (int k=0;k<datas.size();k++){
+                    Map<String,Object> data = datas.get(k);
+                    for(int j=0;j<10;j++){
                         Map<String,Object> temp = new HashMap<>();
                         temp.putAll(data);
                         temp.put("XYRBH",data.get("XYRBH").toString()+i+j);
                         // 一次性写出内容，使用默认样式，强制输出标题
                         listTemp.add(temp);
                     }
-                    writer.write(listTemp, true);
-                    // 关闭writer，释放内存
-                    writer.close();
-                    System.out.println(file+":"+i+"------------------------->完成！");
+
                 }
-            });
+                writer.write(listTemp, true);
+                // 关闭writer，释放内存
+                writer.close();
+                System.out.println(file+":"+i+"------------------------->完成！");
+            }
+
+
+
+
             System.out.println(file+"------------------------->完成！");
         });
     }
-    public static  void  build(String fileName,DataHandler handler){
+    public static  List<Map<String,Object>>  build(String fileName){
         String path = "C:/Users/Administrator/Desktop/20210402/"+fileName;
         ExcelReader reader = ExcelUtil.getReader(FileUtil.file(path));
         List<Map<String,Object>> list = reader.readAll();
-        list.forEach(data ->{
-            handler.handler(data);
-        });
+        return list;
     }
 }
 
