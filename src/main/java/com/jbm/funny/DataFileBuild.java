@@ -19,21 +19,20 @@ public class DataFileBuild {
 
 
     public static void main(String[] args) {
-        String path = "C:/Users/Administrator/Desktop/20210402/";
         String [] files = {"TB_XDRY_JBXX.xlsx","TB_XDRY_CHXX.xlsx","TB_XDRY_CZXX.xlsx","TB_XDRY_DQGK.xlsx"};
         List<String> tempFiles = Arrays.asList(files);
         tempFiles.forEach(file ->{
             String filename = file.substring(0,file.lastIndexOf("."));
             List<Map<String,Object>> datas =  DataFileBuild.build(file);
-            for(int i= 0;i<200;i++){
+            for(int i= 0;i<20;i++){
                 // 通过工具类创建writer
                 String fileName = filename+i+".xlsx";
                 String tempPath =  "C:/Users/Administrator/Desktop/20210405/"+filename+"/"+fileName;
-                ExcelWriter writer = ExcelUtil.getWriter(tempPath);
+                ExcelWriter writer = ExcelUtil.getBigWriter(tempPath);
                 List<Map<String,Object>> listTemp = new ArrayList<>();
                 for (int k=0;k<datas.size();k++){
                     Map<String,Object> data = datas.get(k);
-                    for(int j=0;j<10;j++){
+                    for(int j=0;j<100;j++){
                         Map<String,Object> temp = new HashMap<>();
                         temp.putAll(data);
                         temp.put("XYRBH",data.get("XYRBH").toString()+i+j);
